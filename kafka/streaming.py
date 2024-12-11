@@ -91,7 +91,7 @@ def read_from_kafka(consume_topic: str):
     # .option("startingOffsets", "earliest") \
     return df_stream
 
-def parse_schema_from_kafka_message(kafka_df, key_schema, value_schema, ):
+def parse_schema_from_kafka_message(kafka_df, key_schema, value_schema):
     """ take a Spark Streaming df and parse value col based on <schema>, 
     return streaming df cols in schema """
     assert kafka_df.isStreaming is True, "DataFrame doesn't receive streaming data"
@@ -196,7 +196,7 @@ if __name__=="__main__":
     print(df_consume_stream.printSchema())
 
     # parse streaming data
-    df_flight = parse_schema_from_kafka_message(df_consume_stream, JSON_SCHEMA)
+    df_flight = parse_schema_from_kafka_message(df_consume_stream, KEY_SCHEMA, JSON_SCHEMA)
     print(df_flight.printSchema())
 
     # Write to GCS
